@@ -43,7 +43,7 @@ set(TARGET_NAME mjhvbjh)
 add_executable(${TARGET_NAME}) 
 
 ######## add sub dir 
-#add_subdirectory(src) 
+add_subdirectory(src) 
 
 
 ####### link
@@ -64,8 +64,8 @@ CONAN_PKG::cxxopts
 )
 
 #print all variables used in cmake
-get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
+#get_cmake_property(_variableNames VARIABLES)
+#list (SORT _variableNames)
+#foreach (_variableName ${_variableNames})
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
