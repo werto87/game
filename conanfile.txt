@@ -3,6 +3,7 @@ imgui-sfml/2.1@bincrafters/stable
 spdlog/1.4.2@bincrafters/stable
 range-v3/0.11.0@ericniebler/stable
 cxxopts/2.2.1
+catch2/2.13.1
 [options]
 poco:shared=True
 openssl:shared=True

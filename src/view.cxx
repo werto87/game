@@ -42,15 +42,35 @@ auto updateFieldView(std::vector<sf::RectangleShape> &fieldView, std::vector<int
   for (size_t i = 0; i < fieldView.size(); ++i) {
     switch (field.at(i)) {
     case 0: {
-      fieldView.at(i).setFillColor(sf::Color::Red);
+      fieldView.at(i).setFillColor(sf::Color::White);
       break;
     }
     case 1: {
+      fieldView.at(i).setFillColor(sf::Color::Red);
+      break;
+    }
+    case 2: {
       fieldView.at(i).setFillColor(sf::Color::Green);
       break;
     }
-    default: {
+    case 3: {
       fieldView.at(i).setFillColor(sf::Color::Blue);
+      break;
+    }
+    case 4: {
+      fieldView.at(i).setFillColor(sf::Color::Yellow);
+      break;
+    }
+    case 5: {
+      fieldView.at(i).setFillColor(sf::Color::Magenta);
+      break;
+    }
+    case 6: {
+      fieldView.at(i).setFillColor(sf::Color::Cyan);
+      break;
+    }
+    default: {
+      fieldView.at(i).setFillColor(sf::Color::Black);
       break;
     }
     }

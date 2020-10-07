@@ -14,14 +14,15 @@ auto parseConsoleArguments(int argc, char **argv) -> cxxopts::ParseResult {
   return result;
 }
 
-auto checkGameFinished(std::vector<int> const &field, bool &isGameWon) -> bool {
+auto checkGameFinished(std::vector<int> const &field, std::vector<int> const &winningCombination,unsigned int losingNumber, bool &isGameWon)
+    -> bool {
   auto isGameFinished = false;
-  if (std::find(std::begin(field), std::end(field), 10) != field.end()) {
+  if (std::find(std::begin(field), std::end(field), losingNumber) != field.end()) {
     isGameFinished = true;
     isGameWon = false;
     spdlog::info("player lost");
   }
-  if (field == std::vector<int>{1, 1, 1, 1, 1, 1, 1, 1, 1}) {
+  if (field == winningCombination) {
     spdlog::info("player won");
     isGameFinished = true;
     isGameWon = true;
@@ -37,7 +38,6 @@ auto changeFieldEvent(std::vector<sf::Event> const &events, std::vector<int> &fi
       if (event.key.code >= Keyboard::Num1 && event.key.code <= Keyboard::Num9) {
         field.at(static_cast<size_t>(event.key.code - Keyboard::Num1)) += 1;
       }
-      spdlog::info("1 2 3 4 5 6 7 8 9");
       spdlog::info("{}", print_container(field, " "));
       break;
     }
@@ -47,4 +47,24 @@ auto changeFieldEvent(std::vector<sf::Event> const &events, std::vector<int> &fi
     }
   }
 }
+auto readKeyFromCin() -> char {
+  auto keyPressed = char{};
+  spdlog::info("please press a key: ");
+  std::cin >> keyPressed;
+  while (!std::cin) {
+    std::cin.clear();
+    std::cin >> keyPressed;
+  }
+  spdlog::info("keyPressed: {}", keyPressed);
+  return keyPressed;
+}
+
+constexpr auto OFFSET_TO_TRANSFORM_CHAR_INTO_SFML_NUMBER = 22;
+
+auto charNumberToSfEvent(char number) -> sf::Event {
+  return sf::Event{.type = sf::Event::KeyPressed,
+                   .key = sf::Event::KeyEvent{
+                       .code = static_cast<sf::Keyboard::Key>(number - OFFSET_TO_TRANSFORM_CHAR_INTO_SFML_NUMBER)}};
+}
+
 } // namespace game

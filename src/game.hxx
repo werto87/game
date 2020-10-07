@@ -6,9 +6,13 @@
 namespace game {
 auto parseConsoleArguments(int argc, char **argv) -> cxxopts::ParseResult;
 
-auto checkGameFinished(std::vector<int> const &field, bool &isGameWon) -> bool;
+auto checkGameFinished(std::vector<int> const &field,std::vector<int> const &winningCombination,unsigned int losingNumber, bool &isGameWon) -> bool;
 
 auto changeFieldEvent(std::vector<sf::Event> const &events, std::vector<int> &field) -> void;
+
+auto readKeyFromCin() -> char;
+
+auto charNumberToSfEvent(char number) -> sf::Event; 
 
 template <typename T> auto print_container(const T &container, const std::string &delimiter) -> std::string {
   auto result = std::string{};
@@ -16,6 +20,9 @@ template <typename T> auto print_container(const T &container, const std::string
     result.append(std::to_string(element));
     result.append(delimiter);
   });
+  if (!result.empty()) {
+      result.pop_back();
+  }
   return result;
 }
 } // namespace game

@@ -32,7 +32,7 @@ function(enable_sanitizers project_name)
       list(APPEND SANITIZERS "thread")
     endif()
     
-    option(ENABLE_SANITIZER_FUZZER "Enable fuzzer" TRUE)
+    option(ENABLE_SANITIZER_FUZZER "Enable fuzzer" FALSE)
     if(ENABLE_SANITIZER_FUZZER)
       list(APPEND SANITIZERS "fuzzer")
     endif()

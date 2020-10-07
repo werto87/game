@@ -30,12 +30,13 @@ target_compile_features(${PROJECT_OPTIONS} INTERFACE cxx_std_20)
 include(cmake/Sanitizers.cmake)
 enable_sanitizers(${PROJECT_OPTIONS})
 
-# allow for static analysis options
+# allow for static analysis options 
 #include(cmake/StaticAnalyzers.cmake) 
  
 ######## conan setup
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup(TARGETS)
+
 
 
 ####### create executable
@@ -45,6 +46,12 @@ add_executable(${TARGET_NAME})
 ######## add sub dir 
 add_subdirectory(src) 
 
+######## add enable_testing
+OPTION(BUILD_TESTS "enable tests" ON)
+IF(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(test) 
+ENDIF(BUILD_TESTS)
 
 ####### link
 target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -63,9 +70,15 @@ CONAN_PKG::range-v3
 CONAN_PKG::cxxopts
 )
 
+
+
+#set(TARGET_TEST_NAME test)
+#add_executable(${TARGET_TEST_NAME} )
+
 #print all variables used in cmake
 #get_cmake_property(_variableNames VARIABLES)
 #list (SORT _variableNames)
 #foreach (_variableName ${_variableNames})
 #    message(STATUS "${_variableName}=${${_variableName}}")
 #endforeach()
+
