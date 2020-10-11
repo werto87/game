@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   }
 #ifdef GUI_MODE
   window.close();
-  ImGui::SFML::Shutdown();
+  ImGui::SFML::Shutdown(); 
 #endif
   return isGameWon ? 0 : 1; // note: 0 means success in linux land. its like an error code. result ==0 -> success
                             // result>0 -> error.
