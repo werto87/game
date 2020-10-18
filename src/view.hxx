@@ -5,13 +5,13 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
-
+#include "pointWithHistory.hxx"
 namespace view {
 auto windowEvent(sf::Event const &event, sf::RenderWindow &window) -> void;
 
 auto createFieldView(unsigned int width, size_t elementsPerRow) -> std::vector<sf::RectangleShape>;
 
-auto drawBoard(sf::RenderWindow &window, std::vector<sf::RectangleShape> const &fieldView, sf::Clock &deltaClock)
+auto drawBoard(sf::RenderWindow &window, std::vector<game::PointWithHistory<unsigned short int>> const &points, sf::Clock &deltaClock)
     -> void;
 
 auto updateFieldView(std::vector<sf::RectangleShape> &fieldView, std::vector<int> const &field) -> void;

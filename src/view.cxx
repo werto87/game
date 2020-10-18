@@ -27,18 +27,24 @@ auto createFieldView(unsigned int width, size_t elementsPerRow) -> std::vector<s
   return fieldView;
 }
 
-auto drawBoard(sf::RenderWindow &window, std::vector<sf::RectangleShape> const &fieldView, sf::Clock &deltaClock)
+auto drawBoard(sf::RenderWindow &window, std::vector<game::PointWithHistory<unsigned short int>> const &points, sf::Clock &deltaClock)
     -> void {
   ImGui::SFML::Update(window, deltaClock.restart());
   window.clear();
-  for (size_t i = 0; i < fieldView.size(); ++i) {
-    window.draw(fieldView.at(i));
+  for (size_t i = 0; i < points.size(); ++i) {
+    auto const &pointPosition = points.at(i).getPositions().back();
+    sf::CircleShape circle{};
+    circle.setRadius(1);
+    circle.setOutlineColor(sf::Color::Red);
+    circle.setOutlineThickness(1);
+    circle.setPosition(static_cast<float>(pointPosition.first), static_cast<float>(pointPosition.second));
+    window.draw(circle);
   }
   ImGui::SFML::Render(window);
   window.display();
 }
 
-auto updateFieldView(std::vector<sf::RectangleShape> &fieldView, std::vector<int> const &field) -> void {
+auto updateFieldView(std::vector<sf::RectangleShape> &fieldView, std::vector<unsigned short int> const &field) -> void {
   for (size_t i = 0; i < fieldView.size(); ++i) {
     switch (field.at(i)) {
     case 0: {
