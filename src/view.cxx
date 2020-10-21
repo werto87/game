@@ -32,13 +32,13 @@ auto drawBoard(sf::RenderWindow &window, std::vector<game::PointWithHistory<unsi
   ImGui::SFML::Update(window, deltaClock.restart());
   window.clear();
   for (size_t i = 0; i < points.size(); ++i) {
-    auto const &pointPosition = points.at(i).getPositions().back();
-    sf::CircleShape circle{};
-    circle.setRadius(1);
-    circle.setOutlineColor(sf::Color::Red);
-    circle.setOutlineThickness(1);
-    circle.setPosition(static_cast<float>(pointPosition.first), static_cast<float>(pointPosition.second));
-    window.draw(circle);
+//     auto const &pointPosition = points.at(i).getPositions().back();
+//     sf::CircleShape circle{};
+//     circle.setRadius(1);
+//     circle.setOutlineColor(sf::Color::Red);
+//     circle.setOutlineThickness(1);
+//     circle.setPosition(static_cast<float>(pointPosition.first), static_cast<float>(pointPosition.second));
+//     window.draw(circle);
   }
   ImGui::SFML::Render(window);
   window.display();

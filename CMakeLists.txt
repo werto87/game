@@ -33,7 +33,11 @@ set_project_warnings(${PROJECT_WARNINGS})
 set(PROJECT_OPTIONS project_options)
 add_library(${PROJECT_OPTIONS} INTERFACE)
 target_compile_features(${PROJECT_OPTIONS} INTERFACE cxx_std_20)
-target_compile_options(${PROJECT_OPTIONS} INTERFACE -march=native -O3 -fdisable-tree-cunrolli)
+target_compile_options(${PROJECT_OPTIONS} INTERFACE 
+#-march=native
+#-O3
+#-fdisable-tree-cunrolli
+)
 #target_precompile_headers(${PROJECT_OPTIONS} INTERFACE /home/walde/.conan/data/nlohmann_json/3.9.1/_/_/package/d1091b2ed420e6d287293709a907ae824d5de508/include/nlohmann/json.hpp  /usr/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../include/c++/10.1.0/bits/ios_base.h /usr/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../include/c++/10.1.0/bits/char_traits.h)
 
 

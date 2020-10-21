@@ -6,4 +6,5 @@ target_sources(${TARGET_NAME} PRIVATE
 "pointWithHistory.hxx"
 "pointWithHistory.cxx"
 "scopeDuration.hxx"
+"gameConstant.hxx"
 )

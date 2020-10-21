@@ -2,44 +2,69 @@
 #define POINTWITHHISTORY_H
 #include "header_only_libs/XoShiro/XoshiroCpp.hpp"
 #include <random>
+#include <src/gameConstant.hxx>
 #include <vector>
 namespace game {
-enum class Direction { decrease = -1, doNothing = 0, increase = 1 };
+enum class Direction {
+  leftUp = 7,
+  up = 8,
+  rightUp = 9,
+  left = 4,
+  doNothing = 5,
+  right = 6,
+  leftDown = 1,
+  down = 2,
+  rightDown = 3
+};
 
-template <typename T> auto shouldIncreaseDecreaseOrDoNothing(T const &position, T const &target) -> Direction {
-  return position < target ? Direction::increase : (position == target) ? Direction::doNothing : Direction::decrease;
+template <typename T>
+auto shouldMoveInDirection(std::pair<T, T> const &position, std::pair<T, T> const &targetPosition) -> Direction {
+  if (position.first > targetPosition.first && position.second < targetPosition.second)
+    return Direction::leftUp;
+  if (position.first == targetPosition.first && position.second < targetPosition.second)
+    return Direction::up;
+  if (position.first < targetPosition.first && position.second < targetPosition.second)
+    return Direction::rightUp;
+  if (position.first > targetPosition.first && position.second == targetPosition.second)
+    return Direction::left;
+  if (position.first == targetPosition.first && position.second == targetPosition.second)
+    return Direction::doNothing;
+  if (position.first < targetPosition.first && position.second == targetPosition.second)
+    return Direction::right;
+  if (position.first > targetPosition.first && position.second > targetPosition.second)
+    return Direction::leftDown;
+  if (position.first == targetPosition.first && position.second > targetPosition.second)
+    return Direction::down;
+  if (position.first < targetPosition.first && position.second > targetPosition.second)
+    return Direction::rightDown;
 }
 template <typename T>
 // T should be a number
 class PointWithHistory {
 public:
   PointWithHistory() = default;
-  PointWithHistory(std::pair<T, T> position, T capacity) : _positions{std::move(position)} {
-    _positions.reserve(static_cast<size_t>(capacity));
-  }
-  auto movePointOneStepIntoRndDirection(T stepSize) -> void {
-    using namespace XoshiroCpp;
-    static const std::uint64_t seed = 12345;
-    static Xoshiro128Plus rng(seed);
-    static std::uniform_int_distribution<int> dist(-1, 1);
-    Direction directionX = static_cast<Direction>(dist(rng));
-    Direction directionY = static_cast<Direction>(dist(rng));
-    _positions.push_back(movePointInDirection(_positions.back(), directionX, directionY, stepSize));
-  }
-  auto movePointInDirectionToTarget(T stepSize, std::pair<T, T> const &target) -> void {
-    auto const &lastPosition = _positions.back();
-    touchedFittest = _positions.back() == target;
-    Direction directionX = shouldIncreaseDecreaseOrDoNothing(lastPosition.first, target.first);
-    Direction directionY = shouldIncreaseDecreaseOrDoNothing(lastPosition.second, target.second);
-    _positions.push_back(movePointInDirection(lastPosition, directionX, directionY, stepSize));
-  }
-  auto getPositions() const -> std::vector<std::pair<T, T>> const & { return _positions; }
 
+  PointWithHistory(std::pair<T, T> position) : _position{std::move(position)} {}
+
+  auto moveInDirection(T stepSize, std::pair<Direction, Direction> const &direction) -> void {
+    _position = movePointInDirection(_position, direction.first, direction.second, stepSize);
+  }
+
+  //   auto movePointInDirectionToTarget(T stepSize, std::pair<T, T> const &target) -> void {
+  //     auto const &lastPosition = _positions.back();
+  //     touchedFittest = _positions.back() == target;
+  //     Direction directionX = shouldIncreaseDecreaseOrDoNothing(lastPosition.first, target.first);
+  //     Direction directionY = shouldIncreaseDecreaseOrDoNothing(lastPosition.second, target.second);
+  //     _positions.push_back(movePointInDirection(lastPosition, directionX, directionY, stepSize));
+  //   }
+  // auto getDirections() const -> std::array<std::pair<Direction, Direction>,pointCount> const & { return _directions;
+  // }
+  auto getPosition() const -> std::pair<T, T> const & { return _position; }
   auto getTouchedFittest() -> bool { return touchedFittest; }
 
 private:
-  std::vector<std::pair<T, T>> _positions{};
   bool touchedFittest = false;
+  std::pair<T, T> _position{};
 };
 
 template <typename T>
@@ -66,35 +91,48 @@ auto allowedToMove(PointWithHistory<T> const &pointWithHistory, std::pair<T, T> 
 auto trueInPercent(unsigned int percent) -> bool;
 
 template <typename T>
-auto movePointInDirection(std::pair<T, T> const &oldPosition, Direction directionX, Direction directionY, T stepSize)
-    -> std::pair<T, T> {
+auto movePointInDirection(std::pair<T, T> const &oldPosition, Direction direction, T stepSize) -> std::pair<T, T> {
   auto newPosition = std::pair<T, T>{};
-  switch (directionX) {
-
-  case Direction::decrease: {
+  switch (direction) {
+  case Direction::leftUp: {
+    newPosition.first = oldPosition.first - stepSize;
+    newPosition.second = oldPosition.second + stepSize;
+    break;
+  }
+  case Direction::up: {
+    newPosition.second = oldPosition.second + stepSize;
+    break;
+  }
+  case Direction::rightUp: {
+    newPosition.first = oldPosition.first + stepSize;
+    newPosition.second = oldPosition.second + stepSize;
+    break;
+  }
+  case Direction::left: {
     newPosition.first = oldPosition.first - stepSize;
     break;
   }
   case Direction::doNothing: {
-    newPosition.first = oldPosition.first;
+
     break;
   }
-  case Direction::increase: {
+  case Direction::right: {
     newPosition.first = oldPosition.first + stepSize;
     break;
   }
-  }
-  switch (directionY) {
-  case Direction::decrease: {
+  case Direction::leftDown: {
+    newPosition.first = oldPosition.first - stepSize;
     newPosition.second = oldPosition.second - stepSize;
     break;
   }
-  case Direction::doNothing: {
-    newPosition.second = oldPosition.second;
+  case Direction::down: {
+
+    newPosition.second = oldPosition.second - stepSize;
     break;
   }
-  case Direction::increase: {
-    newPosition.second = oldPosition.second + stepSize;
+  case Direction::rightDown: {
+    newPosition.first = oldPosition.first + stepSize;
+    newPosition.second = oldPosition.second - stepSize;
     break;
   }
   }
