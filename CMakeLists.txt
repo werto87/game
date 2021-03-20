@@ -41,8 +41,8 @@ target_compile_options(${PROJECT_OPTIONS} INTERFACE
 #target_precompile_headers(${PROJECT_OPTIONS} INTERFACE /home/walde/.conan/data/nlohmann_json/3.9.1/_/_/package/d1091b2ed420e6d287293709a907ae824d5de508/include/nlohmann/json.hpp  /usr/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../include/c++/10.1.0/bits/ios_base.h /usr/lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../include/c++/10.1.0/bits/char_traits.h)
 
 
-include(cmake/Sanitizers.cmake)
-enable_sanitizers(${PROJECT_OPTIONS})
+# include(cmake/Sanitizers.cmake)
+# enable_sanitizers(${PROJECT_OPTIONS})
 
 # allow for static analysis options 
 #include(cmake/StaticAnalyzers.cmake) 
@@ -82,6 +82,8 @@ CONAN_PKG::imgui-sfml
 CONAN_PKG::spdlog
 CONAN_PKG::range-v3
 CONAN_PKG::cxxopts
+CONAN_PKG::boost
+CONAN_PKG::magic_enum
 )
 
 

@@ -3,25 +3,23 @@
 #include <spdlog/spdlog.h>
 #endif
 
-
 namespace game {
 auto parseConsoleArguments(int argc, char **argv) -> cxxopts::ParseResult {
   cxxopts::Options options("test", "A brief description");
-  options.add_options()
-  ("windowWidth", "", cxxopts::value<int>()->default_value("1000"))
-  ("windowHeight", "", cxxopts::value<int>()->default_value("1000"))
-  ("winningPositionX", "", cxxopts::value<int>()->default_value("500"))
-  ("winningPositionY", "", cxxopts::value<int>()->default_value("10"))
-  ("minValue", "", cxxopts::value<int>()->default_value("0"))
-  ("maxValue", "", cxxopts::value<int>()->default_value("1000"))
-  ("pointCount", "", cxxopts::value<int>()->default_value("500"))
-  ("startPointX", "", cxxopts::value<int>()->default_value("500"))
-  ("startPointY", "", cxxopts::value<int>()->default_value("500"))
-  ("maxExecutions", "", cxxopts::value<int>()->default_value("1000"))
-//   ("d,debug", "Enable debugging", cxxopts::value<bool>()->default_value("false"))
-//   ("f,foo", "Param foo", cxxopts::value<int>()->default_value("10"))
-//   ("h,help", "Print usage")
-  ;
+  options.add_options()("windowWidth", "", cxxopts::value<int>()->default_value("1000"))(
+      "windowHeight", "", cxxopts::value<int>()->default_value("1000"))(
+      "winningPositionX", "", cxxopts::value<int>()->default_value("500"))("winningPositionY", "",
+                                                                           cxxopts::value<int>()->default_value("10"))(
+      "minValue", "", cxxopts::value<int>()->default_value("0"))("maxValue", "",
+                                                                 cxxopts::value<int>()->default_value("1000"))(
+      "pointCount", "", cxxopts::value<int>()->default_value("5000"))("startPointX", "",
+                                                                      cxxopts::value<int>()->default_value("500"))(
+      "startPointY", "", cxxopts::value<int>()->default_value("500"))("maxExecutions", "",
+                                                                      cxxopts::value<int>()->default_value("1000"))
+      //   ("d,debug", "Enable debugging", cxxopts::value<bool>()->default_value("false"))
+      //   ("f,foo", "Param foo", cxxopts::value<int>()->default_value("10"))
+      //   ("h,help", "Print usage")
+      ;
   auto result = options.parse(argc, argv);
   if (result.count("help")) {
     std::cout << options.help() << std::endl;
@@ -90,7 +88,11 @@ constexpr auto OFFSET_TO_TRANSFORM_CHAR_INTO_SFML_NUMBER = 22;
 auto charNumberToSfEvent(char number) -> sf::Event {
   return sf::Event{.type = sf::Event::KeyPressed,
                    .key = sf::Event::KeyEvent{
-                       .code = static_cast<sf::Keyboard::Key>(number - OFFSET_TO_TRANSFORM_CHAR_INTO_SFML_NUMBER),.alt=false,.control=false,.shift=false,.system=false}};
+                       .code = static_cast<sf::Keyboard::Key>(number - OFFSET_TO_TRANSFORM_CHAR_INTO_SFML_NUMBER),
+                       .alt = false,
+                       .control = false,
+                       .shift = false,
+                       .system = false}};
 }
 
 } // namespace game

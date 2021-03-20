@@ -4,6 +4,8 @@ spdlog/1.4.2@bincrafters/stable
 range-v3/0.11.0@ericniebler/stable
 cxxopts/2.2.1
 catch2/2.13.1
+boost/1.75.0
+magic_enum/0.6.6
 [options]
 poco:shared=True
 openssl:shared=True
