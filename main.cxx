@@ -31,10 +31,6 @@ auto zip(Containers &&...containers)
   return boost::make_iterator_range(zip_begin, zip_end);
 }
 int main(int argc, char **argv) {
-
-  // todo find out why array<ClassWithArrayAsMemberAndTemplate<SomeType>> does not work -- maybe its because of
-  // template?=??
-
   auto consoleArguments = game::parseConsoleArguments(argc, argv);
 #ifdef GUI_MODE
   auto const windowWidth = consoleArguments["windowWidth"].as<int>();
