@@ -28,7 +28,7 @@ auto createFieldView(unsigned int width, size_t elementsPerRow) -> std::vector<s
 }
 
 auto drawBoard(sf::RenderWindow &window, std::vector<game::PointWithHistory<unsigned short int>> const &points,
-               sf::Clock &deltaClock) -> void {
+               std::pair<unsigned short int, unsigned short int> winningPosition, sf::Clock &deltaClock) -> void {
   ImGui::SFML::Update(window, deltaClock.restart());
   window.clear();
   for (size_t i = 0; i < points.size(); ++i) {
@@ -40,6 +40,12 @@ auto drawBoard(sf::RenderWindow &window, std::vector<game::PointWithHistory<unsi
     circle.setPosition(static_cast<float>(pointPosition.first), static_cast<float>(pointPosition.second));
     window.draw(circle);
   }
+  sf::CircleShape circle{};
+  circle.setRadius(1);
+  circle.setOutlineColor(sf::Color::Green);
+  circle.setOutlineThickness(1);
+  circle.setPosition(static_cast<float>(winningPosition.first), static_cast<float>(winningPosition.second));
+  window.draw(circle);
   ImGui::SFML::Render(window);
   window.display();
 }

@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
       });
       ++executions;
 #ifdef GUI_MODE
-      view::drawBoard(window, points, deltaClock);
+      view::drawBoard(window, points, winningPosition, deltaClock);
 #endif
       executionDurations.push_back(executionDuration.duration());
     }
